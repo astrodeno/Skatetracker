@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skate Student & Payment Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="logo">⛸️ Skate Tracker</div>
+
+    <button class="nav active" data-page="dashboard">Dashboard</button>
+    <button class="nav" data-page="students">Students</button>
+    <button class="nav" data-page="payments">Payments</button>
+    <button class="nav" data-page="attendance">Attendance</button>
+    <button class="nav" data-page="reports">Reports</button>
+</div>
+
+
+<main>
+
+    <header>
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageDescription">
+                Student registration and payment management
+            </p>
+        </div>
+
+        <button class="primary" id="addButton">
+            + Add Student
+        </button>
+    </header>
+
+
+    <section id="content"></section>
+
+</main>
+
+
+<!-- STUDENT MODAL -->
+
+<div class="modal hidden" id="studentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2 id="studentModalTitle">Add Student</h2>
+
+            <button class="close" onclick="closeStudentModal()">
+                ×
+            </button>
+        </div>
+
+        <form id="studentForm">
+
+            <input type="hidden" id="studentId">
+
+            <h3>Student Information</h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Student Name *</label>
+                    <input id="studentName" required>
+                </div>
+
+                <div>
+                    <label>Student ID</label>
+                    <input id="studentNumber">
+                </div>
+
+                <div>
+                    <label>Date of Birth</label>
+                    <input type="date" id="dateOfBirth">
+                </div>
+
+                <div>
+                    <label>Registration Date</label>
+                    <input type="date" id="registrationDate">
+                </div>
+
+                <div>
+                    <label>Skill / Level</label>
+                    <input id="level">
+                </div>
+
+                <div>
+                    <label>Status</label>
+
+                    <select id="studentStatus">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <h3>Parent / Guardian</h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Parent / Guardian Name *</label>
+                    <input id="parentName" required>
+                </div>
+
+                <div>
+                    <label>Second Parent Name</label>
+                    <input id="parentName2">
+                </div>
+
+                <div>
+                    <label>Phone Number *</label>
+                    <input id="phone" required>
+                </div>
+
+                <div>
+                    <label>Email Address</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div>
+                    <label>Emergency Contact</label>
+                    <input id="emergencyContact">
+                </div>
+
+                <div>
+                    <label>Emergency Phone</label>
+                    <input id="emergencyPhone">
+                </div>
+
+            </div>
+
+
+            <h3>Training</h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Coach / Instructor</label>
+                    <input id="coach">
+                </div>
+
+                <div>
+                    <label>Preferred Training Day</label>
+                    <input id="trainingDay">
+                </div>
+
+                <div>
+                    <label>Training Time</label>
+                    <input type="time" id="trainingTime">
+                </div>
+
+                <div>
+                    <label>Notes</label>
+                    <input id="studentNotes">
+                </div>
+
+            </div>
+
+
+            <h3>Payment Plan</h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Payment Term *</label>
+
+                    <select id="paymentTerm" required>
+                        <option value="">Select payment term</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Bi-weekly">Bi-weekly</option>
+                        <option value="Monthly">Monthly</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Amount Payable</label>
+                    <input type="number" id="amountPayable" min="0" step="0.01">
+                </div>
+
+                <div>
+                    <label>Next Payment Due</label>
+                    <input type="date" id="nextPaymentDue">
+                </div>
+
+            </div>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    class="secondary"
+                    onclick="closeStudentModal()"
+                >
+                    Cancel
+                </button>
+
+                <button class="primary">
+                    Save Student
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- PAYMENT MODAL -->
+
+<div class="modal hidden" id="paymentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Record Payment</h2>
+
+            <button class="close" onclick="closePaymentModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="paymentForm">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Student *</label>
+
+                    <select id="paymentStudent" required>
+                        <option value="">Select student</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Payment Date *</label>
+                    <input type="date" id="paymentDate" required>
+                </div>
+
+                <div>
+                    <label>Amount *</label>
+                    <input
+                        type="number"
+                        id="paymentAmount"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label>Payment Method</label>
+
+                    <select id="paymentMethod">
+                        <option value="M-Pesa">M-Pesa</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank">Bank</option>
+                        <option value="Card">Card</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Transaction / Reference Number</label>
+                    <input id="paymentReference">
+                </div>
+
+                <div>
+                    <label>Payment Notes</label>
+                    <input id="paymentNotes">
+                </div>
+
+            </div>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    class="secondary"
+                    onclick="closePaymentModal()"
+                >
+                    Cancel
+                </button>
+
+                <button class="primary">
+                    Save Payment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ATTENDANCE MODAL -->
+
+<div class="modal hidden" id="attendanceModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Record Attendance</h2>
+
+            <button class="close" onclick="closeAttendanceModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="attendanceForm">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Student *</label>
+
+                    <select id="attendanceStudent" required>
+                        <option value="">Select student</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Date *</label>
+                    <input type="date" id="attendanceDate" required>
+                </div>
+
+                <div>
+                    <label>Status *</label>
+
+                    <select id="attendanceStatus" required>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Late">Late</option>
+                        <option value="Excused">Excused</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Notes</label>
+                    <input id="attendanceNotes">
+                </div>
+
+            </div>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    class="secondary"
+                    onclick="closeAttendanceModal()"
+                >
+                    Cancel
+                </button>
+
+                <button class="primary">
+                    Save Attendance
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
