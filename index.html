@@ -2,8 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">  <!-- ADDED: viewport-fit=cover -->
     <title>Skate Student & Payment Tracker</title>
+
+    <!-- ADDED: PWA manifest + theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Student registration, attendance, and payment management for a skating program.">
+
+    <!-- ADDED: PWA icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-180.png">
+
+    <!-- ADDED: iOS standalone support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Skate Tracker">
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,13 +26,26 @@
 
 <div class="sidebar">
     <div class="logo">⛸️ Skate Tracker</div>
-
     <button class="nav active" data-page="dashboard">Dashboard</button>
     <button class="nav" data-page="students">Students</button>
     <button class="nav" data-page="payments">Payments</button>
     <button class="nav" data-page="attendance">Attendance</button>
     <button class="nav" data-page="reports">Reports</button>
+
+    <!-- ADDED: install button -->
+    <button class="install-button hidden" id="installButton">
+        Install App
+    </button>
 </div>
+
+<main>
+
+    <!-- ADDED: offline banner -->
+    <div class="offline-banner hidden" id="offlineBanner">
+        You're offline — changes are saved on this device.
+    </div>
+
+    <header>
 
 
 <main>
