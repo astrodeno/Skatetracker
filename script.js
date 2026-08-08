@@ -1972,6 +1972,66 @@ function getFutureDate(days) {
         .split("T")[0];
 
 }
+/* ADDED: whole section */
+/* =========================================================
+   PWA: SERVICE WORKER REGISTRATION
+========================================================= */
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            .register("sw.js")
+            .catch(error => {
+                console.warn("Service worker registration failed:", error);
+            });
+    });
+}
+
+
+/* ADDED: whole section */
+/* =========================================================
+   PWA: INSTALL PROMPT
+========================================================= */
+
+let deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    const installButton = document.getElementById("installButton");
+    if (installButton) installButton.classList.remove("hidden");
+});
+
+document.getElementById("installButton")?.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    document.getElementById("installButton").classList.add("hidden");
+});
+
+window.addEventListener("appinstalled", () => {
+    const installButton = document.getElementById("installButton");
+    if (installButton) installButton.classList.add("hidden");
+});
+
+
+/* ADDED: whole section */
+/* =========================================================
+   PWA: OFFLINE / ONLINE BANNER
+========================================================= */
+
+function updateOfflineBanner() {
+    const banner = document.getElementById("offlineBanner");
+    if (!banner) return;
+    if (navigator.onLine) banner.classList.add("hidden");
+    else banner.classList.remove("hidden");
+}
+
+window.addEventListener("online", updateOfflineBanner);
+window.addEventListener("offline", updateOfflineBanner);
+updateOfflineBanner();
+
 
 
 /* =========================================================
